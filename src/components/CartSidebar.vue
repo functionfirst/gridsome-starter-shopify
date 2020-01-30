@@ -1,5 +1,5 @@
 <template>
-  <DataCart v-slot="{ cart }">
+  <DataCart v-slot="{ cart, cartTotal }">
     <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
       <button @click="close">&times;</button>
 
@@ -19,6 +19,11 @@
             <span class="font-bold">{{ product.price.amount }}</span>
           </p>
         </div>
+      </div>
+
+      <div class="text-xl">
+        Total:
+        <span class="font-bold">{{ cartTotal }}</span>
       </div>
     </div>
   </DataCart>
