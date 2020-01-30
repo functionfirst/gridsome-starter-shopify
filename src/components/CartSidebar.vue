@@ -1,15 +1,21 @@
 <template>
   <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
+    <button @click="close">&times;</button>
     Sidebar basket content...
   </div>
 </template>
 
 <script>
-
 export default {
   computed: {
     sidebar() {
       return this.$store.state.sidebar;
+    }
+  },
+
+  methods: {
+    close() {
+      this.$store.commit("openSidebar", false);
     }
   }
 };
