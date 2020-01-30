@@ -46,8 +46,10 @@ export default function (Vue, { appOptions }) {
   // Create Vuex store
   appOptions.store = new Vuex.Store({
     state: {
-      cart: []
+      cart: [],
+      sidebar: false
     },
+
     mutations: {
       addToCart: (state, newItem) => {
         const itemExists = state.cart.find(item => item.variantId === newItem.variantId)
@@ -55,6 +57,11 @@ export default function (Vue, { appOptions }) {
         if (itemExists) itemExists.qty += newItem.qty
         else state.cart.push(newItem)
       },
+
+      openSidebar: (state, value) => {
+        state.sidebar = value
+      },
+
       removeFromCart: (state, itemId) => {
         const updatedCart = state.cart.filter(item => item.variantId !== itemId)
         state.cart = updatedCart

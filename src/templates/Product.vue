@@ -133,6 +133,7 @@ export default {
         image: variant.image
       }
       await this.$store.commit('addToCart', payload)
+      await this.$store.commit("openSidebar", true)
       this.$notify({
         title: `Added ${payload.productTitle} to Cart`,
         type: 'primary'
