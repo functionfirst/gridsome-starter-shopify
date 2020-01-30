@@ -61,27 +61,28 @@
           <br>
           <div class="field is-grouped is-grouped-right">
             <div class="field has-addons is-fullwidth">
-              <div class="control">
-                <label
-                  class="label"
-                  for="quantity">
-                  Quantity
-                </label>
-                <input
-                  id="quantity"
-                  v-model.number="quantity"
-                  class="input quantity"
-                  type="number"
-                  placeholder="Find a repository">
-              </div>
-              <div class="add-to-cart">
-                <button
-                  class="button is-primary"
-                  @click="addToCart"
-                  @keyup.enter="addToCart">
-                  Add To Cart
-                </button>
-              </div>
+              <form method="post" @submit.prevent="addToCart">
+                <div class="control">
+                  <label
+                    class="label"
+                    for="quantity">
+                    Quantity
+                  </label>
+                  <input
+                    id="quantity"
+                    v-model.number="quantity"
+                    class="input quantity"
+                    type="number"
+                    placeholder="Find a repository">
+                </div>
+                <div class="add-to-cart">
+                  <button
+                    class="button is-primary"
+                  >
+                    Add To Cart
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
