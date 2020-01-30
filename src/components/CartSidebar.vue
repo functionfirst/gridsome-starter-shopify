@@ -1,8 +1,8 @@
 <template>
-  <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
-    <button @click="close">&times;</button>
-    
-    <DataCart v-slot="{ cart }">
+  <DataCart v-slot="{ cart }">
+    <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
+      <button @click="close">&times;</button>
+
       <div class="flex">
         <div v-for="product in cart" :key="product.variantId">
           <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
@@ -20,8 +20,8 @@
           </p>
         </div>
       </div>
-    </DataCart>
-  </div>
+    </div>
+  </DataCart>
 </template>
 
 <script>
