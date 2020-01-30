@@ -2,6 +2,7 @@
   <div class="container-fluid">
     <notifications />
     <Navbar />
+    <CartSidebar />
     <section class="section">
       <slot />
     </section>
@@ -9,8 +10,13 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar'
+import CartSidebar from "@/components/CartSidebar";
+import Navbar from "@/components/Navbar";
+
 export default {
-  components: { Navbar }
-}
+  components: {
+    CartSidebar,
+    Navbar
+  }
+};
 </script>
