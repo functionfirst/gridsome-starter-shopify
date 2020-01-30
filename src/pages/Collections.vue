@@ -20,6 +20,7 @@
             <div class="card-image">
               <figure class="image is-4by3">
                 <img
+                  v-if="collection.image"
                   :src="collection.image.src"
                   :alt="collection.image.altText || collection.title">
               </figure>
