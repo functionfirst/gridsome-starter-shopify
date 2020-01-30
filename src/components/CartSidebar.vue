@@ -1,12 +1,37 @@
 <template>
   <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
     <button @click="close">&times;</button>
-    Sidebar basket content...
+    
+    <DataCart v-slot="{ cart }">
+      <div class="flex">
+        <div v-for="product in cart" :key="product.variantId">
+          <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
+
+          <div>
+            <h4 v-if="product.variantTitle">{{ product.variantTitle }}</h4>
+            <h4 v-else>{{ product.productTitle }}</h4>
+
+            <p>Qty; {{ product.qty }}</p>
+          </div>
+
+          <p>
+            Price:
+            <span class="font-bold">{{ product.price.amount }}</span>
+          </p>
+        </div>
+      </div>
+    </DataCart>
   </div>
 </template>
 
 <script>
+import DataCart from "~/components/data/Cart";
+
 export default {
+  components: {
+    DataCart
+  },
+
   computed: {
     sidebar() {
       return this.$store.state.sidebar;
