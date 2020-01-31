@@ -4,8 +4,9 @@
       <div>
         <div>
           Added Items
-          <span v-if="cart">({{ cart.length }})</span>
+          ({{ cart.length }})
         </div>
+
         <button @click="close">&times;</button>
       </div>
 
