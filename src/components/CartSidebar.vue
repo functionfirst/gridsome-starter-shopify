@@ -1,67 +1,71 @@
 <template>
   <DataCart v-slot="{ cart, cartTotal, removeItem }">
-    <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
-      <div>
+    <div>
+      <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
         <div>
-          Added Items
-          ({{ cart.length }})
+          <div>
+            Added Items
+            ({{ cart.length }})
+          </div>
+
+          <button @click="close">&times;</button>
         </div>
 
-        <button @click="close">&times;</button>
+        <template v-if="cart.length">
+          <div class="flex">
+            <div v-for="product in cart" :key="product.variantId">
+              <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
+
+              <div>
+                <h4 v-if="product.variantTitle">{{ product.variantTitle }}</h4>
+                <h4 v-else>{{ product.productTitle }}</h4>
+
+                <p>Qty; {{ product.qty }}</p>
+              </div>
+
+              <p>
+                Price:
+                <span class="font-bold">{{ product.price.amount }}</span>
+              </p>
+
+              <button
+                class="delete is-danger"
+                @click="removeItem(product.variantId)"
+                @keyup="removeItem(product.variantId)"
+              >
+                <small>Remove</small>
+              </button>
+            </div>
+          </div>
+
+          <div class="text-xl">
+            Total:
+            <span class="font-bold">{{ cartTotal }}</span>
+          </div>
+
+          <g-link
+            class="button is-fullwidth"
+            @click="close"
+            to="/cart"
+          >
+            View Cart
+          </g-link>
+
+          <g-link
+            class="button is-fullwidth is-primary"
+            @click="close"
+            to="/checkout"
+          >
+            Checkout &amp; Pay
+          </g-link>
+        </template>
+
+        <p v-else class="text-center">
+          Your cart is currently empty
+        </p>
       </div>
 
-      <template v-if="cart.length">
-        <div class="flex">
-          <div v-for="product in cart" :key="product.variantId">
-            <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
-
-            <div>
-              <h4 v-if="product.variantTitle">{{ product.variantTitle }}</h4>
-              <h4 v-else>{{ product.productTitle }}</h4>
-
-              <p>Qty; {{ product.qty }}</p>
-            </div>
-
-            <p>
-              Price:
-              <span class="font-bold">{{ product.price.amount }}</span>
-            </p>
-
-            <button
-              class="delete is-danger"
-              @click="removeItem(product.variantId)"
-              @keyup="removeItem(product.variantId)"
-            >
-              <small>Remove</small>
-            </button>
-          </div>
-        </div>
-
-        <div class="text-xl">
-          Total:
-          <span class="font-bold">{{ cartTotal }}</span>
-        </div>
-
-        <g-link
-          class="button is-fullwidth"
-          @click="close"
-          to="/cart"
-        >
-          View Cart
-        </g-link>
-
-        <g-link
-          class="button is-fullwidth is-primary"
-          @click="close"
-          to="/checkout"
-        >
-          Checkout &amp; Pay
-        </g-link>
-      </template>
-
-      <p v-else class="text-center">
-        Your cart is currently empty
-      </p>
+      <div v-show="sidebar" class="backdrop" @click="close"></div>
     </div>
   </DataCart>
 </template>
@@ -89,6 +93,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.backdrop {
+  cursor: pointer;
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  opacity: .35;
+}
+
 .sidebar {
   position: fixed;
   right: 0;
