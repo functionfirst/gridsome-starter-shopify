@@ -1,6 +1,10 @@
 @import "./variables";
 @import "./custom";
 @import "bulma/bulma";
+@import "tailwindcss/base";
 
 // Plugins
 @import "./notification"
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
