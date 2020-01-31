@@ -1,7 +1,13 @@
 <template>
   <DataCart v-slot="{ cart, cartTotal, removeItem }">
     <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
-      <button @click="close">&times;</button>
+      <div>
+        <div>
+          Added Items
+          <span v-if="cart">({{ cart.length }})</span>
+        </div>
+        <button @click="close">&times;</button>
+      </div>
 
       <div class="flex">
         <div v-for="product in cart" :key="product.variantId">
