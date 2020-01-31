@@ -130,6 +130,7 @@ export default {
         productTitle: this.product.title,
         variantTitle: variant.title,
         variantId: variant.id,
+        handle: this.product.handle,
         price: variant.price,
         image: variant.image
       }
@@ -149,6 +150,7 @@ query Product ($id: ID!) {
   shopifyProduct (id: $id) {
     id
     descriptionHtml
+    handle
     title
     tags
     images(limit: 4) {
