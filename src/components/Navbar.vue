@@ -74,11 +74,12 @@
             </div>
           </div>
         </div>
-        <g-link
-          to="/cart"
-          class="navbar-item">
+        <button
+          @click="open"
+          class="navbar-item"
+        >
           Cart - {{ cart.length }} Item{{ cart.length !== 1 ? 's' : '' }}
-        </g-link>
+        </button>
       </div>
     </div>
   </nav>
@@ -98,6 +99,13 @@ export default {
       return this.$search.search({ query: searchTerm, limit: 5, suggest: true })
     }
   },
+
+  methods: {
+    open () {
+      this.$store.commit("openSidebar", true);
+    }
+  },
+
   watch: {
     $route (to, from) {
       this.searchTerm = ''
