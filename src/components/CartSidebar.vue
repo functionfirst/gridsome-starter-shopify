@@ -1,71 +1,88 @@
 <template>
   <DataCart v-slot="{ cart, cartTotal, removeItem }">
     <div>
-      <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
-        <div>
-          <div>
+      <div
+        class="flex flex-col w-11/12 md:w-1/2 lg:w-1/3 xl:w-1/4 fixed inset-y-0 border-l z-20 right-0 bg-white transition-transform transition-300 transition-ease-in-out"
+        :class="sidebar ? '' : 'translate-100'"
+      >
+        <div class="flex items-center justify-between border-b border-gray-300">
+          <div></div>
+          <div class="text-center text-lg">
             Added Items
             ({{ cart.length }})
           </div>
 
-          <button @click="close">&times;</button>
+          <button @click="close" class="h-12 w-12">&times;</button>
         </div>
 
-        <template v-if="cart.length">
-          <div class="flex">
-            <div v-for="product in cart" :key="product.variantId">
-              <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
-
-              <div>
-                <h4 v-if="product.variantTitle">{{ product.variantTitle }}</h4>
-                <h4 v-else>{{ product.productTitle }}</h4>
-
-                <p>Qty; {{ product.qty }}</p>
-              </div>
-
-              <p>
-                Price:
-                <span class="font-bold">{{ product.price.amount }}</span>
-              </p>
-
-              <button
-                class="delete is-danger"
-                @click="removeItem(product.variantId)"
-                @keyup="removeItem(product.variantId)"
+        <div class="flex flex-col flex-1 max-h-full">
+          <template v-if="cart.length">
+            <div class="flex flex-col flex-1 overflow-auto p-4">
+              <div
+                v-for="product in cart"
+                :key="product.variantId"
+                class="flex w-full justify-between items-start mb-4 border-b pb-4"
               >
-                <small>Remove</small>
-              </button>
+                <div class="w-24 mr-4" v-if="product.image">
+                  <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
+                </div>
+
+                <div class="flex-1">
+                  <g-link class="borderblock" :to="`product/${product.handle}`">
+                    {{ product.productTitle }}
+                    {{ product.variantTitle !== 'Default Title' ? `- ${item.variantTitle}` : '' }}
+                  </g-link>
+
+                  <div class="flex text-sm justify-between">
+                    <div>
+                      <p>Qty: <span class="font-bold">{{ product.qty }}</span></p>
+
+                      <button
+                        class="underline hover:text-gray-800"
+                        @click="removeItem(product.variantId)"
+                        @keyup="removeItem(product.variantId)"
+                      >
+                        <small>Remove</small>
+                      </button>
+                    </div>
+
+                    <p class="self-end">
+                      <span class="font-bold">{{ product.price.amount }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="text-xl">
-            Total:
-            <span class="font-bold">{{ cartTotal }}</span>
-          </div>
+            <div class="border-t border-b flex items-center justify-between m-4 p-4">
+              Total
+              <span class="font-bold">{{ cartTotal }}</span>
+            </div>
 
-          <g-link
-            class="button is-fullwidth"
-            @click="close"
-            to="/cart"
-          >
-            View Cart
-          </g-link>
+            <g-link
+              class="rounded border mx-4 px-3 py-2 text-center hover:border-gray-400"
+              @click="close"
+              to="/cart"
+            >
+              View Cart
+            </g-link>
 
-          <g-link
-            class="button is-fullwidth is-primary"
-            @click="close"
-            to="/checkout"
-          >
-            Checkout &amp; Pay
-          </g-link>
-        </template>
+            <g-link
+              class="rounded bg-green-900 mb-2 mx-4 px-3 py-2 text-white text-center mt-4 hover:bg-green-800"
+              @click="close"
+              to="/checkout"
+            >
+              Checkout &amp; Pay
+            </g-link>
+          </template>
 
-        <p v-else class="text-center">
-          Your cart is currently empty
-        </p>
+          <p v-else class="text-center text-gray-900 p-4">
+            Your cart is currently empty
+          </p>
+        </div>
       </div>
 
-      <div v-show="sidebar" class="backdrop" @click="close"></div>
+      <div v-show="sidebar" class="z-10 opacity-25 bg-black inset-0 fixed cursor-pointer" @click="close"></div>
     </div>
   </DataCart>
 </template>
@@ -93,34 +110,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.backdrop {
-  cursor: pointer;
-  position: fixed;
-  z-index: 30;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: black;
-  opacity: .35;
+.transition-transform {
+  transition-property: transform
 }
 
-.sidebar {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 20rem;
-  background-color: #fff;
-  border-left: 1px solid #eee;
-  padding: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
-  top: 0;
-  bottom: 0;
-  z-index: 1000;
-  transition: transform 0.3s ease-in-out;
+.transition-300 {
+  transition-duration: 0.3s;
 }
 
-.sidebar-offset {
+.transition-ease-in-out {
+  transition-timing-function: ease-in-out
+}
+
+.translate-100 {
   transform: translate(100%, 0);
 }
 </style>
