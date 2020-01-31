@@ -10,52 +10,58 @@
         <button @click="close">&times;</button>
       </div>
 
-      <div class="flex">
-        <div v-for="product in cart" :key="product.variantId">
-          <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
+      <template v-if="cart.length">
+        <div class="flex">
+          <div v-for="product in cart" :key="product.variantId">
+            <g-image :src="product.image.thumbnail" :alt="product.image.altText" />
 
-          <div>
-            <h4 v-if="product.variantTitle">{{ product.variantTitle }}</h4>
-            <h4 v-else>{{ product.productTitle }}</h4>
+            <div>
+              <h4 v-if="product.variantTitle">{{ product.variantTitle }}</h4>
+              <h4 v-else>{{ product.productTitle }}</h4>
 
-            <p>Qty; {{ product.qty }}</p>
+              <p>Qty; {{ product.qty }}</p>
+            </div>
+
+            <p>
+              Price:
+              <span class="font-bold">{{ product.price.amount }}</span>
+            </p>
+
+            <button
+              class="delete is-danger"
+              @click="removeItem(product.variantId)"
+              @keyup="removeItem(product.variantId)"
+            >
+              <small>Remove</small>
+            </button>
           </div>
-
-          <p>
-            Price:
-            <span class="font-bold">{{ product.price.amount }}</span>
-          </p>
-
-          <button
-            class="delete is-danger"
-            @click="removeItem(product.variantId)"
-            @keyup="removeItem(product.variantId)"
-          >
-            <small>Remove</small>
-          </button>
         </div>
-      </div>
 
-      <div class="text-xl">
-        Total:
-        <span class="font-bold">{{ cartTotal }}</span>
-      </div>
+        <div class="text-xl">
+          Total:
+          <span class="font-bold">{{ cartTotal }}</span>
+        </div>
 
-      <g-link
-        class="button is-fullwidth"
-        @click="close"
-        to="/cart"
-      >
-        View Cart
-      </g-link>
+        <g-link
+          class="button is-fullwidth"
+          @click="close"
+          to="/cart"
+        >
+          View Cart
+        </g-link>
 
-      <g-link
-        class="button is-fullwidth is-primary"
-        @click="close"
-        to="/checkout"
-      >
-        Checkout &amp; Pay
-      </g-link>
+        <g-link
+          class="button is-fullwidth is-primary"
+          @click="close"
+          to="/checkout"
+        >
+          Checkout &amp; Pay
+        </g-link>
+      </template>
+
+      <p v-else class="text-center">
+        Your cart is currently empty
+      </p>
     </div>
   </DataCart>
 </template>
