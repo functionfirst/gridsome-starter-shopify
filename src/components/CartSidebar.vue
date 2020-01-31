@@ -39,6 +39,22 @@
         Total:
         <span class="font-bold">{{ cartTotal }}</span>
       </div>
+
+      <g-link
+        class="button is-fullwidth"
+        @click="close"
+        to="/cart"
+      >
+        View Cart
+      </g-link>
+
+      <g-link
+        class="button is-fullwidth is-primary"
+        @click="close"
+        to="/checkout"
+      >
+        Checkout &amp; Pay
+      </g-link>
     </div>
   </DataCart>
 </template>
