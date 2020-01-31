@@ -1,106 +1,110 @@
 <template>
   <Layout>
-    <div class="hero">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h3 class="title">
-            Cart
-          </h3>
-        </div>
+    <div class="flex justify-between items-center">
+      <div>
+        <g-link>
+          &larr; Continue Shopping
+        </g-link>
+      </div>
+
+      <h1 class="text-center text-4xl font-bold">
+        Cart
+      </h1>
+      <div>
+        Secure Checkout
       </div>
     </div>
-    <div class="container">
-      <table class="table is-fullwidth">
-        <thead>
-          <tr>
-            <th />
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="item in cart"
-            :key="item.variantId">
-            <td>
-              <figure class="image is-square">
-                <img
-                  :src="item.image.thumbnail"
-                  :alt="item.image.altText || item.title">
-              </figure>
-            </td>
-            <td>
-              {{ item.productTitle }}
-              {{ item.variantTitle !== 'Default Title' ? `- ${item.variantTitle}` : '' }}
-            </td>
-            <td>{{ item.qty }}</td>
-            <td>{{ totalPrice(item) }}</td>
-            <td
-              width="200"
-              class="has-text-right">
-              <button
-                class="delete is-danger"
+
+    <div
+      v-if="!cart.length"
+      class="text-center my-4"
+    >
+      <h3 class="my-12 text-3xl">
+        You currently have nothing in your cart
+      </h3>
+
+      <g-link
+        to="/"
+        class="border px-3 py-2 text-center rounded hover:bg-gray-100 hover:borer-gray-300">
+        Browse
+      </g-link>
+    </div>
+
+    <div
+      class="flex items-start relative"
+      v-if="cart.length"
+    >
+      <div class="flex-1 mr-12">
+        <div
+          class="flex border-t border-b -mb-px py-4 items-stretch justify-between"
+          v-for="item in cart"
+          :key="item.variantId"
+        >
+          <figure class="w-32 mr-8">
+            <g-image
+              :src="item.image.thumbnail"
+              :alt="item.image.altText || item.title"
+            />
+          </figure>
+
+          <div class="flex-1">
+              <g-link
+                :to="`/product/${ item.handle }`"
+                class="font-bold"
+              >
+                {{ item.productTitle }}
+                {{ item.variantTitle !== 'Default Title' ? `- ${item.variantTitle}` : '' }}
+              </g-link>
+
+              <p>
+                Quantity: {{ item.qty }}
+              </p>
+          </div>
+          <div class="flex flex-col justify-between">
+             <button
+                class="underline hover:text-gray-700 hover:no-underline"
                 @click="removeItem(item.variantId)"
                 @keyup="removeItem(item.variantId)">
                 <small>Remove</small>
               </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot v-if="cart.length">
-          <tr>
-            <th />
-            <th />
-            <th />
-            <th />
-            <th class="has-text-right">
-              <p>Cart Total: {{ cartTotal }}</p>
-            </th>
-          </tr>
-        </tfoot>
-      </table>
-      <br>
-      <form
-        v-if="cart.length"
-        @submit.prevent="checkout">
-        <div class="field is-grouped is-grouped-right">
-          <div class="field has-addons">
-            <div class="control">
-              <label
-                for="email"
-                class="label">
-                <input
-                  id="email"
-                  v-model="email"
-                  class="input"
-                  type="email"
-                  placeholder="Your email address"
-                  required>
-              </label>
-            </div>
-            <div class="control">
-              <button
-                :class="{'is-loading': isLoading}"
-                type="submit"
-                class="button is-primary">
-                Checkout
-              </button>
-            </div>
+
+            {{ totalPrice(item) }}
           </div>
         </div>
-      </form>
+      </div>
+
       <div
-        v-else
-        class="container has-text-centered">
-        <p>To checkout, add some items to cart.</p>
-        <br>
-        <g-link
-          to="/"
-          class="button is-primary is-outlined">
-          Browse
-        </g-link>
+        class="border p-8 w-1/3 sticky top-0"        
+      >
+        <div class="border-t text-xl border-b py-4 flex justify-between items-center">
+          Estimated Total
+
+          <span class="font-bold">{{ cartTotal }}</span>
+        </div>
+
+        <form
+          class="mt-4"
+          @submit.prevent="checkout"
+        >
+          <label for="email" class="block cursor-pointer my-2">Enter your email address to checkout</label>
+
+          <input
+            id="email"
+            v-model="email"
+            class="border my-2 px-3 py-2 w-full"
+            type="email"
+            placeholder="Your email address"
+            required
+          >
+
+          <button
+            :class="{'is-loading': isLoading}"
+            type="submit"
+            class="w-full rounded mt-2 bg-teal-700 p-4 text-white text-lg hover:bg-teal-800"
+          >
+            Checkout
+          </button>
+        </form>
       </div>
     </div>
   </Layout>
