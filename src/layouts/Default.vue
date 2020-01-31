@@ -1,9 +1,12 @@
 <template>
-  <div class="container-fluid">
+  <div>
     <notifications />
+
     <Navbar />
+
     <CartSidebar />
-    <section class="section">
+
+    <section class="section max-w-6xl mx-auto my-12">
       <slot />
     </section>
   </div>
