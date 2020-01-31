@@ -1,5 +1,5 @@
 <template>
-  <DataCart v-slot="{ cart, cartTotal }">
+  <DataCart v-slot="{ cart, cartTotal, removeItem }">
     <div class="sidebar" :class="sidebar ? '' : 'sidebar-offset'">
       <button @click="close">&times;</button>
 
@@ -18,6 +18,14 @@
             Price:
             <span class="font-bold">{{ product.price.amount }}</span>
           </p>
+
+          <button
+            class="delete is-danger"
+            @click="removeItem(product.variantId)"
+            @keyup="removeItem(product.variantId)"
+          >
+            <small>Remove</small>
+          </button>
         </div>
       </div>
 

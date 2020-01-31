@@ -17,10 +17,22 @@ export default {
     }
   },
 
+  methods: {
+    async removeItem (itemId) {
+      await this.$store.commit('removeFromCart', itemId)
+
+      this.$notify({
+        title: 'Item removed from cart',
+        type: 'primary'
+      })
+    },
+  },
+
   render() {
     return this.$scopedSlots.default({
       cart: this.cart,
-      cartTotal: this.cartTotal
+      cartTotal: this.cartTotal,
+      removeItem: this.removeItem
     });
   }
 };
