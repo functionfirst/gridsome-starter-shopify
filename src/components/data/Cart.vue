@@ -18,6 +18,10 @@ export default {
   },
 
   methods: {
+    totalPrice ({ qty, price }) {
+      return currency(price.amount, { formatWithSymbol: true, symbol: '£' }).multiply(qty).format()
+    },
+
     async removeItem (itemId) {
       await this.$store.commit('removeFromCart', itemId)
 
@@ -32,7 +36,8 @@ export default {
     return this.$scopedSlots.default({
       cart: this.cart,
       cartTotal: this.cartTotal,
-      removeItem: this.removeItem
+      removeItem: this.removeItem,
+      totalPrice: this.totalPrice
     });
   }
 };
